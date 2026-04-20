@@ -1,0 +1,139 @@
+# =========================
+
+# OS / System files
+
+# =========================
+
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# =========================
+
+# Logs
+
+# =========================
+
+*.log
+logs/
+*.out
+
+# =========================
+
+# Build directories
+
+# =========================
+
+target/
+build/
+out/
+
+# =========================
+
+# Maven
+
+# =========================
+
+.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+
+# Gradle
+
+# =========================
+
+.gradle/
+gradle-app.setting
+!gradle-wrapper.jar
+
+# =========================
+
+# IntelliJ IDEA
+
+# =========================
+
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# =========================
+
+# Eclipse
+
+# =========================
+
+.project
+.classpath
+.settings/
+bin/
+
+# =========================
+
+# VS Code
+
+# =========================
+
+.vscode/
+
+# =========================
+
+# Spring Boot / Java
+
+# =========================
+
+*.class
+*.jar
+*.war
+*.ear
+
+# =========================
+
+# Environment files
+
+# =========================
+
+.env
+.env.*
+application-*.properties
+application-*.yml
+
+# (Optional: keep default config tracked)
+
+!src/main/resources/application.properties
+!src/main/resources/application.yml
+
+# =========================
+
+# Node (if you ever add frontend)
+
+# =========================
+
+node_modules/
+
+# =========================
+
+# Temporary files
+
+# =========================
+
+*.tmp
+*.temp
+*.swp
+
+# =========================
+
+# Test output
+
+# =========================
+
+test-output/
+
+# =========================
+
+# Coverage reports
+
+# =========================
+
+coverage/

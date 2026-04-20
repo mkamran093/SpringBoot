@@ -1,0 +1,15 @@
+1. created a project with Spring Initializr
+2. made changes accordingly. Java version 1.8, spring boot version 2.7.18
+3. ran command "mvn archetype:create-from-project"
+4. changed location to target/generated-sources/archetype
+5. ran "mvn install"
+
+Now I am good to go 
+
+6. Go the your desired location and run this command: mvn archetype:generate -DarchetypeCatalog=local
+
+Sample creation:
+groupId   = net.engineeringdigest
+artifactId= JournalApp
+version   = 1.0-SNAPSHOT or 1.0.0
+package   = net.engineeringdigest.journalapp
