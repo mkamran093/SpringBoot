@@ -1,0 +1,26 @@
+===========================
+Annotations and their Uses
+===========================
+
+@SpringBootApplication
+=Marks the entry point of the application. Also use @Configuration, @EnableAutoConfiguration and @ComponentScan behind the scene.
+
+@RestController
+=indicates that the class will use REST api methods
+
+@RequestMapping("/abc")
+=indicates that endpoints containing "/abc" should be redirected to the underlying class
+
+@GetMapping("/xyz")
+=redirects the get request with '/xyz' to the underlying function.
+Similarly, @PostMapping, @PutMapping, @DeleteMapping
+=if we use any of the mapping annotation without parameter, it will redirect to the request from @RequestMapping to the function by default.
+but only one function is allowed this otherwise it will create ambiguity.
+
+=When receiving any data in requrest body, the function should be declared as follows:
+public void createEntry(@RequestBody, JournalEntry myEntry)
+where JournalEntry myEntry are class and object respectively.
+
+=When receiving an id in request, the function should be declared as follows:
+@GetMapping('id/{myid}')
+public JournalEntry getJournalById(@PathVariable Long myid)
