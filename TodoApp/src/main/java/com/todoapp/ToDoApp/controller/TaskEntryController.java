@@ -5,6 +5,8 @@ import com.todoapp.ToDoApp.service.TaskEntryService;
 import javafx.concurrent.Task;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -19,29 +21,54 @@ public class TaskEntryController {
     private TaskEntryService taskEntryService;
 
     @GetMapping
-    public List<TaskEntry> getAll() {
-        return taskEntryService.getAll();
+    public ResponseEntity<?> getAll() {
+        List<TaskEntry> all = taskEntryService.getAll();
+        if (all != null && !all.isEmpty()) {
+            return new ResponseEntity<>(all, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PostMapping
-    public TaskEntry postTask(@RequestBody TaskEntry taskEntry) {
-        taskEntry.setDate(LocalDateTime.now());
-        return taskEntryService.createEntry(taskEntry);
+    public ResponseEntity<TaskEntry> postTask(@RequestBody TaskEntry taskEntry) {
+        try {
+            taskEntry.setDate(LocalDateTime.now());
+            taskEntryService.createEntry(taskEntry);
+            return new ResponseEntity<>(taskEntry, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("id/{myId}")
-    public Optional<TaskEntry> getTaskById(@PathVariable ObjectId myId) {
-        return taskEntryService.getById(myId);
+    public ResponseEntity<TaskEntry> getTaskById(@PathVariable ObjectId myId) {
+        Optional<TaskEntry> entry =  taskEntryService.getById(myId);
+        if(entry.isPresent()) {
+            return new ResponseEntity<>(entry.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping("id/{myId}")
-    public TaskEntry updateTask(@PathVariable ObjectId myId, @RequestBody TaskEntry taskEntry) {
-        return taskEntryService.update(taskEntry, myId);
+    @PutMapping("/{myId}")
+    public ResponseEntity<?> updateTask(@PathVariable ObjectId myId, @RequestBody TaskEntry newEntry) {
+        TaskEntry old = taskEntryService.getById(myId).orElse(null);
+        if (old != null) {
+            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().isEmpty() ? newEntry.getTitle() : old.getTitle());
+            old.setDescription(newEntry.getDescription() != null && !newEntry.getDescription().isEmpty() ? newEntry.getDescription() : old.getDescription());
+            old.setStatus(newEntry.getStatus() != null ? newEntry.getStatus() : old.getStatus());
+            taskEntryService.createEntry(old);
+            return new ResponseEntity<>(old, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("id/{myId}")
-    public Boolean deleteTask(@PathVariable ObjectId myId) {
-        return taskEntryService.delete(myId);
+    @DeleteMapping("/{myId}")
+    public ResponseEntity<?> deleteTask(@PathVariable ObjectId myId) {
+        Boolean deleted = taskEntryService.delete(myId);
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }

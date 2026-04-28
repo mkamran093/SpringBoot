@@ -29,12 +29,11 @@ public class TaskEntryService {
     }
 
     public Boolean delete(ObjectId myId) {
-        try {
+        if (taskEntryRepository.existsById(myId)) {
             taskEntryRepository.deleteById(myId);
             return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     public TaskEntry update(TaskEntry newEntry, ObjectId myId) {
