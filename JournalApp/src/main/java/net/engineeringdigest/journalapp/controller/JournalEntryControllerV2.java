@@ -47,11 +47,7 @@ public class JournalEntryControllerV2 {
     @PostMapping("/{username}")
     public ResponseEntity<JournalEntry> createEntry(@RequestBody JournalEntry myEntry, @PathVariable String username) {
         try {
-            User user = userService.findByUserName(username);
-            myEntry.setDate(LocalDateTime.now());
-            JournalEntry saved = journalEntryService.saveEntry(myEntry);
-            user.getJournalEntries().add(saved);
-            userService.saveUser(user);
+            journalEntryService.saveEntry(myEntry, username);
             return new ResponseEntity<>(myEntry, HttpStatus.OK);
         }catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

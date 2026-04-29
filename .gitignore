@@ -137,3 +137,5 @@ test-output/
 # =========================
 
 coverage/
+
+demoApp/
